@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja" class="min-h-[100vh]">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>今年の運勢メーカー</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-[100vh] flex flex-col">
+    <header class="flex justify-center items-center p-5 bg-gray-100">
+      <h1 class="text-left w-[100vw] text-bold text-2xl">今年の運勢メーカー</h1>
+    </header>
+    <main class="flex-grow flex flex-col items-center">
+      <h1 class="text-center text-3xl p-10">
+        占いたい人の名前と誕生日を入れてください
+      </h1>
+      <form id="form" name="main" class="flex flex-col space-y-1">
+        <div class="w-full flex flex-row">
+          <label for="name">名前：</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            required
+            class="border rounded flex-grow"
+          />
+        </div>
+        <div class="w-full flex flex-row">
+          <label for="age">生年月日：</label>
+          <input
+            type="date"
+            name="age"
+            id="age"
+            required
+            class="border rounded flex-grow"
+          />
+        </div>
+        <button
+          id="submit-button"
+          type="button"
+          class="rounded bg-blue-300 pt-1 pb-1 pr-3 pl-3"
+        >
+          占う
+        </button>
+      </form>
+      <script>
+        document
+          .getElementById("submit-button")
+          .addEventListener("click", function () {
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            if (name && age) {
+              const nameValue = Array.from(name).reduce(
+                (acc, char) => acc + char.charCodeAt(0),
+                0
+              );
+              const ageValue = new Date(age).getTime();
+              const totalValue = nameValue + ageValue;
+              const result = totalValue % 4;
+              let fortune = "";
+              switch (result) {
+                case 0:
+                  fortune = "大吉";
+                  break;
+                case 1:
+                  fortune = "中吉";
+                  break;
+                case 2:
+                  fortune = "小吉";
+                  break;
+                case 3:
+                  fortune = "凶";
+                  break;
+              }
+              const resultElement = document.createElement("p");
+              resultElement.textContent = `あなたの運勢は: ${fortune}`;
+              switch (fortune) {
+                case "大吉":
+                  resultElement.textContent += " ✨";
+                  break;
+                case "中吉":
+                  resultElement.textContent += " 😊";
+                  break;
+                case "小吉":
+                  resultElement.textContent += " 😌";
+                  break;
+                case "凶":
+                  resultElement.textContent += " 😱";
+                  break;
+              }
+              resultElement.className = "text-center text-5xl mt-5 pt-10";
+              document.getElementById("form").appendChild(resultElement);
+            }
+          });
+      </script>
+    </main>
+    <footer class="flex flex-row justify-center items-center p-5">
+      <span class="w-[100vw] text-center">
+        Copyright (c)2024 YuitoAKatsuki All Rights Reserved.
+      </span>
+    </footer>
+  </body>
+</html>
